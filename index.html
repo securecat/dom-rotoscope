@@ -40,9 +40,9 @@ var fnStr = function() {
   if(document.getElementById(PANEL_ID)){cleanup();return;}
   var lineOp=1.0,fillOp=0.15,bodyOp=0;
   var groups={
-    h:  {label:'Heading',sel:'h1,h2,h3,h4,h5,h6',col:'#1D9E75',rect:true, circ:false},
+    h:  {label:'Heading',sel:'h1,h2,h3,h4,h5,h6',col:'#38423F',rect:false,circ:true },
     img:{label:'Image',  sel:'img',               col:'#378ADD',rect:false,circ:false},
-    a:  {label:'Link',   sel:'a',                 col:'#D85A30',rect:false,circ:false}
+    a:  {label:'Link',   sel:'a',                 col:'#90867A',rect:false,circ:false}
   };
   function cleanup(){
     [PANEL_ID,SVG_ID,STYLE_ID].forEach(function(id){var el=document.getElementById(id);if(el)el.parentNode.removeChild(el);});
