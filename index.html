@@ -17,7 +17,7 @@ hr{border:none;border-top:0.5px solid #949494;margin:2rem 0 1rem;}
 footer div{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
 </style></head>
 <body>
-<h1 style="font-size:13px;font-weight:600;margin:0 0 0.75rem;"><span style="color:#1a1a1a;">DOM Rotoscope</span> <span style="color:#767676;font-weight:400;">r014</span></h1>
+<h1 style="font-size:13px;font-weight:600;margin:0 0 0.75rem;"><span style="color:#1a1a1a;">DOM Rotoscope</span> <span style="color:#767676;font-weight:400;">r015</span></h1>
 <details style="margin-bottom:1.5rem;">
   <summary style="font-size:13px;color:#767676;cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;user-select:none;">
     <span id="disc-arrow" style="font-size:10px;display:inline-block;transition:transform 0.2s;">&#x25B6;</span>
@@ -60,11 +60,13 @@ var fnStr = function() {
     img:{label:'Image',  sel:'img',               col:'#378ADD',rect:false,circ:false},
     a:  {label:'Link',   sel:'a',                 col:'#90867A',rect:false,circ:false}
   };
+  var rafId=null;
   function cleanup(){
+    if(rafId)cancelAnimationFrame(rafId);
     [PANEL_ID,SVG_ID,STYLE_ID].forEach(function(id){var el=document.getElementById(id);if(el)el.parentNode.removeChild(el);});
     document.querySelectorAll('.'+CLS).forEach(function(el){el.style.display=el.__roto_orig__||'';el.classList.remove(CLS);});
     document.querySelectorAll('body *').forEach(function(el){el.style.opacity='';});
-    window.removeEventListener('scroll',draw);window.removeEventListener('resize',draw);
+    window.removeEventListener('resize',draw);
   }
   document.querySelectorAll('h1,h2,h3,h4,h5,h6,img,a').forEach(function(el){
     if(!el.classList.contains(CLS)){el.__roto_orig__=el.style.display;el.style.display='inline-block';el.classList.add(CLS);}
@@ -141,7 +143,7 @@ var fnStr = function() {
   panel.setAttribute('style','all:unset!important;display:block!important;position:fixed!important;top:16px!important;right:16px!important;z-index:2147483647!important;background:#fff!important;border:1px solid #949494!important;border-radius:12px!important;padding:14px 16px!important;font-family:sans-serif!important;font-size:13px!important;color:#222!important;width:300px!important;box-sizing:border-box!important;box-shadow:0 4px 20px rgba(0,0,0,0.15)!important;');
   panel.innerHTML=
     '<div style="display:flex!important;justify-content:space-between!important;align-items:center!important;margin-bottom:14px!important;">'
-    +'<span style="font-weight:600!important;font-size:14px!important;">DOM Rotoscope <span style="font-size:11px!important;color:#767676!important;font-weight:400!important;">r014</span></span>'
+    +'<span style="font-weight:600!important;font-size:14px!important;">DOM Rotoscope <span style="font-size:11px!important;color:#767676!important;font-weight:400!important;">r015</span></span>'
     +'<button id="r_close" title="Close" aria-label="Close" style="all:unset!important;cursor:pointer!important;font-size:18px!important;color:#767676!important;line-height:1!important;">&#x2715;</button>'
     +'</div>'
     +gr('h')+gr('img')+gr('a')
@@ -220,7 +222,37 @@ var fnStr = function() {
     });
   });
   document.getElementById('r_close').addEventListener('click',cleanup);
-  draw();window.addEventListener('scroll',draw);window.addEventListener('resize',draw);
+
+  (function(){
+    var ox=0,oy=0,dragging=false;
+    var header=panel.querySelector('div');
+    header.style.cssText+='cursor:move!important;';
+    function startDrag(cx,cy){
+      var r=panel.getBoundingClientRect();
+      ox=cx-r.left;oy=cy-r.top;dragging=true;
+    }
+    function moveDrag(cx,cy){
+      if(!dragging)return;
+      var x=cx-ox,y=cy-oy;
+      var W=window.innerWidth,H=window.innerHeight;
+      x=Math.max(0,Math.min(x,W-panel.offsetWidth));
+      y=Math.max(0,Math.min(y,H-panel.offsetHeight));
+      panel.style.setProperty('left',x+'px','important');
+      panel.style.setProperty('top',y+'px','important');
+      panel.style.setProperty('right','auto','important');
+    }
+    function endDrag(){dragging=false;}
+    header.addEventListener('mousedown',function(e){if(e.target.id!=='r_close')startDrag(e.clientX,e.clientY);});
+    document.addEventListener('mousemove',function(e){moveDrag(e.clientX,e.clientY);});
+    document.addEventListener('mouseup',endDrag);
+    header.addEventListener('touchstart',function(e){if(e.target.id!=='r_close'){var t=e.touches[0];startDrag(t.clientX,t.clientY);}},{passive:true});
+    document.addEventListener('touchmove',function(e){if(dragging){e.preventDefault();var t=e.touches[0];moveDrag(t.clientX,t.clientY);}},{passive:false});
+    document.addEventListener('touchend',endDrag);
+  })();
+
+  function loop(){draw();rafId=requestAnimationFrame(loop);}
+  loop();
+  window.addEventListener('resize',draw);
 }.toString();
 
 var code='javascript:('+fnStr+')()';
