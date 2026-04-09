@@ -302,8 +302,8 @@ function applyLang(lang) {
   document.getElementById('lang-ja').setAttribute('aria-current', lang === 'ja' ? 'true' : 'false');
   document.getElementById('lang-ja').style.textDecoration = lang === 'ja' ? 'none' : 'underline';
   document.getElementById('lang-ja').style.cursor = lang === 'ja' ? 'default' : 'pointer';
-  document.getElementById('disc-arrow').style.transform = '';
   var det = document.querySelector('details');
+  document.getElementById('disc-arrow').style.transform = (det && det.open) ? 'rotate(90deg)' : '';
   if (det) {
     det.removeEventListener('toggle', onToggle);
     det.addEventListener('toggle', onToggle);
