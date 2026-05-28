@@ -12,12 +12,17 @@ https://securecat.github.io/dom-rotoscope/
 
 ## Changelog
 
-### v1.0.14 — 2026-05-17
+### [1.0.14] — 2026-05-17
 
-- Design adjustments, Bug fixes
+#### Changed
+- Design adjustments
 
-### v1.0.0 — 2026-04-04
+#### Fixed
+- Bug fixes
 
+### [1.0.0] — 2026-04-04
+
+#### Added
 - Initial release
 
 ---
@@ -36,10 +41,15 @@ https://securecat.github.io/dom-rotoscope/
 
 ## 更新履歴
 
-### v1.0.14 — 2026-05-17
+### [1.0.14] — 2026-05-17
 
-- デザイン調整、バグフィックス
+#### 変更
+- デザイン調整
 
-### v1.0.0 — 2026-04-04
+#### 修正
+- バグフィックス
 
+### [1.0.0] — 2026-04-04
+
+#### 追加
 - 初回リリース
