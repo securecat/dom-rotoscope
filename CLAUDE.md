@@ -2,8 +2,19 @@
 
 - バージョン記載箇所：`index.html` の `h1` とパネル内の2箇所
 - 更新のたびに semver に従ってバージョンを上げること
-- README.md の Changelog セクション（日本語は 更新履歴 セクション）に変更内容を追記すること
-  - 形式：[Keep a Changelog](https://keepachangelog.com/) に準拠（`[Unreleased]` セクションは使わない）
-  - バージョン見出し形式：`### [1.2.0] — 2026-05-28`
-  - 変更種別見出し（英語）：`Added` / `Changed` / `Deprecated` / `Removed` / `Fixed` / `Security`
-  - 変更種別見出し（日本語）：`追加` / `変更` / `非推奨` / `削除` / `修正` / `セキュリティ`
+- バージョン更新時は、`CHANGELOG.md`（全履歴）と `README.md`（最新バージョンのみ）の**両方**に変更内容を記載すること
+  - 形式：[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) に準拠（`[Unreleased]` セクションは使わない）
+  - 言語構成：英語セクション → `---` → 日本語セクション
+  - 変更種別（英語）：`Added` / `Changed` / `Deprecated` / `Removed` / `Fixed` / `Security`
+  - 変更種別（日本語）：`追加` / `変更` / `非推奨` / `削除` / `修正` / `セキュリティ`
+
+### CHANGELOG.md（全履歴）
+
+- バージョン見出し形式：`## [1.2.0] - YYYY-MM-DD`
+- 変更種別は `###` 見出しで記載すること
+
+### README.md（最新バージョンのみ）
+
+- Changelog セクション（日本語は 更新履歴 セクション）に**最新バージョンのみ**記載し、古いバージョンは CHANGELOG.md へのリンクで補完すること
+- バージョン見出し形式：`### [1.2.0] - YYYY-MM-DD`
+- 変更種別は `####` 見出しで記載すること
